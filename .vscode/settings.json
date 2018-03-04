@@ -1,0 +1,10 @@
+{
+    "files.exclude": {
+        ".gradle": true,
+        ".vscode": true,
+        "dist": true,
+        "gradle": true,
+        "node_modules": true
+    },
+    "typescript.tsdk": "./node_modules/typescript/lib"
+}
