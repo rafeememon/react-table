@@ -34,6 +34,12 @@ export class ExpandedTable<
         scrollTop: 0,
     };
 
+    private theadElement: HTMLTableSectionElement | null = null;
+
+    public componentDidMount() {
+        this.theadElement = ReactDOM.findDOMNode(this).querySelector('thead');
+    }
+
     public componentDidUpdate({}: any, {scrollTop}: State) {
         if (scrollTop !== this.state.scrollTop) {
             this.updateScroll();
@@ -52,7 +58,14 @@ export class ExpandedTable<
     }
 
     private handleScroll = (event: React.UIEvent<HTMLElement>) => {
+        this.hideTableHeader();
         this.handleScrollDebounced(event.currentTarget.scrollTop);
+    }
+
+    private hideTableHeader() {
+        if (this.theadElement) {
+            this.theadElement.style.visibility = 'hidden';
+        }
     }
 
     // tslint:disable-next-line:member-ordering
@@ -61,9 +74,9 @@ export class ExpandedTable<
     }, HEADER_REPOSITION_DELAY_MS);
 
     private updateScroll() {
-        const thead = ReactDOM.findDOMNode(this).querySelector('thead');
-        if (thead) {
-            thead.style.transform = `translateY(${this.state.scrollTop}px)`;
+        if (this.theadElement) {
+            this.theadElement.style.transform = `translateY(${this.state.scrollTop}px)`;
+            this.theadElement.style.visibility = 'visible';
         }
     }
 
