@@ -12,16 +12,12 @@ export interface ExpandedTableProps<
     noRowsElement?: React.ReactNode;
 }
 
-export interface State {
-    scrollTop: number;
-}
-
 const HEADER_REPOSITION_DELAY_MS = 50;
 
 export class ExpandedTable<
     Key extends keyof RowType,
     RowType extends KeyValWithType<Key, RowType[Key]>
-> extends React.Component<ExpandedTableProps<Key, RowType>, State> {
+> extends React.Component<ExpandedTableProps<Key, RowType>> {
 
     public static ofType<
             Key extends keyof RowType,
@@ -30,20 +26,10 @@ export class ExpandedTable<
         return (ExpandedTable as any) as new () => ExpandedTable<Key, RowType>;
     }
 
-    public state: State = {
-        scrollTop: 0,
-    };
-
     private theadElement: HTMLTableSectionElement | null = null;
 
     public componentDidMount() {
         this.theadElement = ReactDOM.findDOMNode(this).querySelector('thead');
-    }
-
-    public componentDidUpdate({}: any, {scrollTop}: State) {
-        if (scrollTop !== this.state.scrollTop) {
-            this.updateScroll();
-        }
     }
 
     public render() {
@@ -59,7 +45,7 @@ export class ExpandedTable<
 
     private handleScroll = (event: React.UIEvent<HTMLElement>) => {
         this.hideTableHeader();
-        this.handleScrollDebounced(event.currentTarget.scrollTop);
+        this.repositionTableHeader(event.currentTarget.scrollTop);
     }
 
     private hideTableHeader() {
@@ -69,15 +55,11 @@ export class ExpandedTable<
     }
 
     // tslint:disable-next-line:member-ordering
-    private handleScrollDebounced = debounce((scrollTop: number) => {
-        this.setState({scrollTop});
-    }, HEADER_REPOSITION_DELAY_MS);
-
-    private updateScroll() {
+    private repositionTableHeader = debounce((scrollTop: number) => {
         if (this.theadElement) {
-            this.theadElement.style.transform = `translateY(${this.state.scrollTop}px)`;
+            this.theadElement.style.transform = `translateY(${scrollTop}px)`;
             this.theadElement.style.visibility = 'visible';
         }
-    }
+    }, HEADER_REPOSITION_DELAY_MS);
 
 }
