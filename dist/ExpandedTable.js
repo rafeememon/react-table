@@ -27,39 +27,37 @@ var ExpandedTable = /** @class */ (function (_super) {
     __extends(ExpandedTable, _super);
     function ExpandedTable() {
         var _this = _super !== null && _super.apply(this, arguments) || this;
-        _this.state = {
-            scrollTop: 0,
-        };
+        _this.theadElement = null;
         _this.renderNoRows = function () {
             return _this.props.rows.length === 0 ? _this.props.noRowsElement : null;
         };
         _this.handleScroll = function (event) {
-            _this.handleScrollDebounced(event.currentTarget.scrollTop);
+            _this.hideTableHeader();
+            _this.repositionTableHeader(event.currentTarget.scrollTop);
         };
         // tslint:disable-next-line:member-ordering
-        _this.handleScrollDebounced = lodash_1.debounce(function (scrollTop) {
-            _this.setState({ scrollTop: scrollTop });
+        _this.repositionTableHeader = lodash_1.debounce(function (scrollTop) {
+            if (_this.theadElement) {
+                _this.theadElement.style.transform = "translateY(" + scrollTop + "px)";
+                _this.theadElement.style.visibility = 'visible';
+            }
         }, HEADER_REPOSITION_DELAY_MS);
         return _this;
     }
     ExpandedTable.ofType = function () {
         return ExpandedTable;
     };
-    ExpandedTable.prototype.componentDidUpdate = function (_a, _b) {
-        var scrollTop = _b.scrollTop;
-        if (scrollTop !== this.state.scrollTop) {
-            this.updateScroll();
-        }
+    ExpandedTable.prototype.componentDidMount = function () {
+        this.theadElement = ReactDOM.findDOMNode(this).querySelector('thead');
     };
     ExpandedTable.prototype.render = function () {
         return React.createElement("div", { className: 'expanded-table-container', onScroll: this.handleScroll },
             React.createElement(Table_1.Table, __assign({}, this.props)),
             this.renderNoRows());
     };
-    ExpandedTable.prototype.updateScroll = function () {
-        var thead = ReactDOM.findDOMNode(this).querySelector('thead');
-        if (thead) {
-            thead.style.transform = "translateY(" + this.state.scrollTop + "px)";
+    ExpandedTable.prototype.hideTableHeader = function () {
+        if (this.theadElement) {
+            this.theadElement.style.visibility = 'hidden';
         }
     };
     return ExpandedTable;
