@@ -19,6 +19,7 @@ export interface TableProps<Key extends keyof RowType, RowType extends KeyValWit
     selected?: Array<RowType[Key]>;
     className?: string;
     selectedRowClassName?: string;
+    rowClassName?(key: RowType[Key]): string;
     onSelect?(keys: Array<RowType[Key]>): void;
 }
 export interface TableState<Key extends keyof RowType, RowType> {

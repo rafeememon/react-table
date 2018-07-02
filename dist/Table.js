@@ -76,10 +76,13 @@ var Table = /** @class */ (function (_super) {
     };
     Table.prototype.renderRows = function () {
         var _this = this;
+        var _a = this.props, keyField = _a.keyField, selectedRowClassName = _a.selectedRowClassName, rowClassName = _a.rowClassName;
         return this.state.sortedRows.map(function (row, rowIndex) {
-            var keyValue = row[_this.props.keyField];
+            var keyValue = row[keyField];
             var selected = _this.isSelected(keyValue);
-            return React.createElement("tr", { key: rowIndex, "data-row": rowIndex, "data-selected": selected, className: selected ? _this.props.selectedRowClassName : undefined, onClick: _this.handleClickRow }, _this.renderColumns(row));
+            var selectedClassName = selected && selectedRowClassName || '';
+            var customClassName = rowClassName ? rowClassName(keyValue) : '';
+            return React.createElement("tr", { key: rowIndex, "data-row": rowIndex, "data-selected": selected, className: selectedClassName + " " + customClassName, onClick: _this.handleClickRow }, _this.renderColumns(row));
         });
     };
     Table.prototype.renderColumns = function (row) {
