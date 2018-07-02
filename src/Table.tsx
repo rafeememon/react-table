@@ -26,6 +26,7 @@ export interface TableProps<
     selected?: Array<RowType[Key]>;
     className?: string;
     selectedRowClassName?: string;
+    rowClassName?(key: RowType[Key]): string;
     onSelect?(keys: Array<RowType[Key]>): void;
 }
 
@@ -96,14 +97,17 @@ export class Table<
     }
 
     private renderRows() {
+        const {keyField, selectedRowClassName, rowClassName} = this.props;
         return this.state.sortedRows.map((row, rowIndex) => {
-            const keyValue = row[this.props.keyField];
+            const keyValue = row[keyField];
             const selected = this.isSelected(keyValue);
+            const selectedClassName = selected && selectedRowClassName || '';
+            const customClassName = rowClassName ? rowClassName(keyValue) : '';
             return <tr
                 key={rowIndex}
                 data-row={rowIndex}
                 data-selected={selected}
-                className={selected ? this.props.selectedRowClassName : undefined}
+                className={`${selectedClassName} ${customClassName}`}
                 onClick={this.handleClickRow}
             >
                 {this.renderColumns(row)}
