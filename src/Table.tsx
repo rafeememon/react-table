@@ -1,4 +1,5 @@
-import {findIndex, sortBy} from 'lodash';
+import findIndex from 'lodash-es/findIndex';
+import sortBy from 'lodash-es/sortBy';
 import * as React from 'react';
 
 import {KeyValWithType} from './util';
