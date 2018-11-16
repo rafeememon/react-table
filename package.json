@@ -6,6 +6,7 @@
   "style": "css/index.css",
   "scripts": {
     "build": "tsc",
+    "lint": "tslint --project .",
     "start": "webpack-dev-server"
   },
   "files": [
