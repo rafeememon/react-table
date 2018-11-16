@@ -1,5 +1,12 @@
 const webpack = require('webpack');
 
+const sassLoader = {
+  loader: 'sass-loader',
+  options: {
+    implementation: require('sass')
+  }
+};
+
 module.exports = {
   mode: 'development',
 
@@ -17,7 +24,7 @@ module.exports = {
       { test: /\.tsx?$/, use: 'tslint-loader', enforce: 'pre' },
       { test: /\.js$/, use: 'source-map-loader', enforce: 'pre' },
       { test: /\.tsx?$/, use: 'ts-loader' },
-      { test: /\.scss$/, use: ['style-loader', 'css-loader', 'sass-loader'] },
+      { test: /\.scss$/, use: ['style-loader', 'css-loader', sassLoader] },
       { test: /\.css$/, use: ['style-loader', 'css-loader'] },
     ]
   }
