@@ -18,7 +18,7 @@ var __assign = (this && this.__assign) || Object.assign || function(t) {
     return t;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var lodash_1 = require("lodash");
+var debounce_1 = require("lodash-es/debounce");
 var React = require("react");
 var ReactDOM = require("react-dom");
 var Table_1 = require("./Table");
@@ -36,7 +36,7 @@ var ExpandedTable = /** @class */ (function (_super) {
             _this.repositionTableHeader(event.currentTarget.scrollTop);
         };
         // tslint:disable-next-line:member-ordering
-        _this.repositionTableHeader = lodash_1.debounce(function (scrollTop) {
+        _this.repositionTableHeader = debounce_1.default(function (scrollTop) {
             if (_this.theadElement) {
                 _this.theadElement.style.transform = "translateY(" + scrollTop + "px)";
                 _this.theadElement.style.visibility = 'visible';

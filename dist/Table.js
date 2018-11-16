@@ -10,7 +10,8 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-var lodash_1 = require("lodash");
+var findIndex_1 = require("lodash-es/findIndex");
+var sortBy_1 = require("lodash-es/sortBy");
 var React = require("react");
 var Table = /** @class */ (function (_super) {
     __extends(Table, _super);
@@ -109,7 +110,7 @@ var Table = /** @class */ (function (_super) {
         var sort = this.state.sort;
         if (sort) {
             var index_1 = sort.index, direction = sort.direction;
-            var ascending = lodash_1.sortBy(rows, function (row) { return _this.getSortData(row, index_1); });
+            var ascending = sortBy_1.default(rows, function (row) { return _this.getSortData(row, index_1); });
             return direction === 'DESC' ? ascending.reverse() : ascending;
         }
         else {
@@ -142,7 +143,7 @@ var Table = /** @class */ (function (_super) {
         var anchorKey = this.state.anchorKey;
         if (anchorKey != null) {
             var keyField_1 = this.props.keyField;
-            var otherIndex = lodash_1.findIndex(this.state.sortedRows, function (r) { return r[keyField_1] === anchorKey; });
+            var otherIndex = findIndex_1.default(this.state.sortedRows, function (r) { return r[keyField_1] === anchorKey; });
             if (otherIndex !== -1) {
                 var newSelected = this.state.sortedRows
                     .slice(Math.min(index, otherIndex), Math.max(index, otherIndex) + 1)
