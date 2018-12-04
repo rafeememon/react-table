@@ -34,7 +34,7 @@ export interface TableProps<
 export interface TableState<Key extends keyof RowType, RowType> {
     sort: TableSort | null;
     sortedRows: RowType[];
-    anchorKey: RowType[Key];
+    anchorKey: RowType[Key] | null;
 }
 
 export class Table<
