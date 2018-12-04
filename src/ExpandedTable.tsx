@@ -30,6 +30,7 @@ export class ExpandedTable<
 
     public componentDidMount() {
         this.theadElement = ReactDOM.findDOMNode(this).querySelector('thead');
+        this.scrollSelectedIntoView();
     }
 
     public render() {
@@ -39,7 +40,7 @@ export class ExpandedTable<
         </div>;
     }
 
-    private renderNoRows = () => {
+    private renderNoRows() {
         return this.props.rows.length === 0 ? this.props.noRowsElement : null;
     }
 
@@ -61,5 +62,15 @@ export class ExpandedTable<
             this.theadElement.style.visibility = 'visible';
         }
     }, HEADER_REPOSITION_DELAY_MS);
+
+    private scrollSelectedIntoView() {
+        const rowElement = ReactDOM.findDOMNode(this).querySelector('tr[data-selected=true]');
+        if (rowElement) {
+            rowElement.scrollIntoView({
+                block: 'center',
+                inline: 'start',
+            });
+        }
+    }
 
 }
