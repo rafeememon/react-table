@@ -28,9 +28,6 @@ var ExpandedTable = /** @class */ (function (_super) {
     function ExpandedTable() {
         var _this = _super !== null && _super.apply(this, arguments) || this;
         _this.theadElement = null;
-        _this.renderNoRows = function () {
-            return _this.props.rows.length === 0 ? _this.props.noRowsElement : null;
-        };
         _this.handleScroll = function (event) {
             _this.hideTableHeader();
             _this.repositionTableHeader(event.currentTarget.scrollTop);
@@ -49,15 +46,28 @@ var ExpandedTable = /** @class */ (function (_super) {
     };
     ExpandedTable.prototype.componentDidMount = function () {
         this.theadElement = ReactDOM.findDOMNode(this).querySelector('thead');
+        this.scrollSelectedIntoView();
     };
     ExpandedTable.prototype.render = function () {
         return React.createElement("div", { className: 'expanded-table-container', onScroll: this.handleScroll },
             React.createElement(Table_1.Table, __assign({}, this.props)),
             this.renderNoRows());
     };
+    ExpandedTable.prototype.renderNoRows = function () {
+        return this.props.rows.length === 0 ? this.props.noRowsElement : null;
+    };
     ExpandedTable.prototype.hideTableHeader = function () {
         if (this.theadElement) {
             this.theadElement.style.visibility = 'hidden';
+        }
+    };
+    ExpandedTable.prototype.scrollSelectedIntoView = function () {
+        var rowElement = ReactDOM.findDOMNode(this).querySelector('tr[data-selected=true]');
+        if (rowElement) {
+            rowElement.scrollIntoView({
+                block: 'center',
+                inline: 'start',
+            });
         }
     };
     return ExpandedTable;

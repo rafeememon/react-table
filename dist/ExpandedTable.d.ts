@@ -10,8 +10,9 @@ export declare class ExpandedTable<Key extends keyof RowType, RowType extends Ke
     private theadElement;
     componentDidMount(): void;
     render(): JSX.Element;
-    private renderNoRows;
+    private renderNoRows();
     private handleScroll;
     private hideTableHeader();
     private repositionTableHeader;
+    private scrollSelectedIntoView();
 }
